@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/expense_tracker_dev
+    username: root
+    password: 24032003
+server:
+  port: 8081
+

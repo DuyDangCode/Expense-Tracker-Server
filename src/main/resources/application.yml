@@ -1,0 +1,7 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: expense-tracker-app
+  profiles:
+    active: @spring.profiles.active@
