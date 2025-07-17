@@ -12,4 +12,15 @@ spring:
     password: 24032003
 server:
   port: 8081
+openapi:
+  service:
+    api-docs: api-service
+    title: expense-tracker
+    version: 1.0.0
+    server: http://localhost:8081
+    package-to-scan: com.example.expense_tracker.v1.controller
+jwt:
+  secret: expense-tracker-server-api-secret-key
+  expiration-amount-time: 25832000 #30 days
+  expiration-refresh-token: 5184000 #60 days
 
