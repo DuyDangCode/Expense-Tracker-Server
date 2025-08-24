@@ -1,4 +1,4 @@
-package com.example.expense_tracker.v1.dto;
+package com.example.expense_tracker.v1.core;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,15 +1,12 @@
 package com.example.expense_tracker.v1.controller;
 
 import com.example.expense_tracker.v1.dto.CreateUserDto;
-import com.example.expense_tracker.v1.dto.ResponseFailure;
-import com.example.expense_tracker.v1.dto.ResponseSuccess;
+import com.example.expense_tracker.v1.core.ResponseSuccess;
 import com.example.expense_tracker.v1.dto.SignInUserDto;
 import com.example.expense_tracker.v1.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/:id")
-    public ResponseSuccess getInfo(@Param("id") @Validated() long id) {
+    @GetMapping("/{id}")
+    public ResponseSuccess getInfo(@PathVariable("id") @Validated() long id) {
         return new ResponseSuccess(HttpStatus.OK,
                 ResponseSuccess.Payload.builder().status(HttpStatus.OK.value()).body(
                         userService.getUserById(id)

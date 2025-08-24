@@ -1,5 +1,6 @@
 package com.example.expense_tracker.v1.config;
 
+import com.example.expense_tracker.v1.core.UserNotFoundException;
 import com.example.expense_tracker.v1.model.UserModel;
 import com.example.expense_tracker.v1.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +38,9 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("sign-in", "sign-up", "/swagger-ui/index.html").permitAll()
-
-                                .requestMatchers("/api/v1/users/sign-in", "/api/v1/users/sign-up", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
+//                                .requestMatchers("/api/v1/users/sign-in", "/api/v1/users/sign-up", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+//                                .anyRequest().authenticated()
                 ).addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -53,10 +54,10 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return subject -> {
             Optional<UserModel> foundUser = userRepo.findByEmail(subject);
-            if (foundUser.isPresent()) {
-                return foundUser.get(); // Return UserDetails if found
+            if (foundUser.isEmpty()) {
+                throw new UserNotFoundException();
             }
-            throw new UsernameNotFoundException("User not found with subject: " + subject);
+            return foundUser.get(); // Return UserDetails if found
         };
     }
 

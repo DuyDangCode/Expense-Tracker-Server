@@ -1,6 +1,6 @@
 package com.example.expense_tracker.v1.controller;
 
-import com.example.expense_tracker.v1.dto.ResponseSuccess;
+import com.example.expense_tracker.v1.core.ResponseSuccess;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +13,8 @@ public class AdminController {
         return new ResponseSuccess(HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/:id")
-    public ResponseSuccess deleteUser(@Param("id") long id) {
+    @DeleteMapping("/users/{id}")
+    public ResponseSuccess deleteUser(@PathVariable("id") long id) {
         return new ResponseSuccess(HttpStatus.OK);
     }
 }

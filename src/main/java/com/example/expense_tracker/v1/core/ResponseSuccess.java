@@ -1,4 +1,4 @@
-package com.example.expense_tracker.v1.dto;
+package com.example.expense_tracker.v1.core;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,7 @@ public class ResponseSuccess extends ResponseEntity {
         super(status);
     }
 
-    public ResponseSuccess(HttpStatusCode status, Payload body ) {
+    public ResponseSuccess(HttpStatusCode status, Payload body) {
         super(body, status);
     }
 

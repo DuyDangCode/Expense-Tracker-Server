@@ -1,5 +1,6 @@
 package com.example.expense_tracker.v1.service;
 
+import com.example.expense_tracker.v1.core.CategoryNotFoundException;
 import com.example.expense_tracker.v1.dto.CreateCategoryDto;
 import com.example.expense_tracker.v1.dto.UpdateCategoryDto;
 import com.example.expense_tracker.v1.model.CategoryModel;
@@ -22,10 +23,11 @@ public class CategoryService implements ICategoryService {
         return newCategory;
     }
 
-    public CategoryModel getInfoById(long categoryId) throws Exception {
+    public CategoryModel getInfoById(long categoryId) {
         Optional<CategoryModel> foundCategory = categoryRepo.findById(categoryId);
-        if (foundCategory.isEmpty())
-            throw new Exception();
+        if (foundCategory.isEmpty()) {
+            throw new CategoryNotFoundException();
+        }
         return foundCategory.get();
     }
 
@@ -34,21 +36,13 @@ public class CategoryService implements ICategoryService {
     }
 
     public boolean update(UpdateCategoryDto categoryUpdateDto, long categoryId) {
-        CategoryModel foundCategory = checkAndGetCategoryExists(categoryId);
+        CategoryModel foundCategory = getInfoById(categoryId);
         categoryRepo.save(foundCategory.updateName(categoryUpdateDto));
         return true;
     }
 
-    private CategoryModel checkAndGetCategoryExists(long categoryId) {
-        Optional<CategoryModel> foundCategory = categoryRepo.findById(categoryId);
-        if (foundCategory.isEmpty()) {
-            throw new InvalidParameterException("Not found category");
-        }
-        return foundCategory.get();
-    }
-
     public boolean delete(long categoryId) {
-        CategoryModel foundCategory = checkAndGetCategoryExists(categoryId);
+        CategoryModel foundCategory = getInfoById(categoryId);
         foundCategory.delete();
         return true;
     }

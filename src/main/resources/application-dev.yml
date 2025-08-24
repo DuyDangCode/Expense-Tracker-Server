@@ -4,7 +4,7 @@ spring:
       on-profile: dev
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/expense_tracker_dev

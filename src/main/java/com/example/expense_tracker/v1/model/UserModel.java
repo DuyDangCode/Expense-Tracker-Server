@@ -21,6 +21,10 @@ public class UserModel extends BaseModel implements UserDetails {
 
     private String name;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     @Column(nullable = false, unique = true)
     private String password;
 

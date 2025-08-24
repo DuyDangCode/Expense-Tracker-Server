@@ -1,5 +1,7 @@
 package com.example.expense_tracker.v1.service;
 
+import com.example.expense_tracker.v1.core.UserAlreadyExistsException;
+import com.example.expense_tracker.v1.core.UserNotFoundException;
 import com.example.expense_tracker.v1.dto.CreateUserDto;
 import com.example.expense_tracker.v1.dto.SignInUserDto;
 import com.example.expense_tracker.v1.model.UserModel;
@@ -30,36 +32,39 @@ public class UserService implements IUserService {
     public UserModel getUserById(long id) {
         Optional<UserModel> foundUser = userRepo.findById(id);
         if (foundUser.isEmpty()) {
-            return null;
+            throw new UserNotFoundException();
         }
         return foundUser.get();
     }
 
     public UserModel signUp(CreateUserDto userInfo) throws Exception {
         String hashPassword = passwordEncoder.encode(userInfo.getPassword());
-
+        Optional<UserModel> foundUser = userRepo.findByEmail(userInfo.getEmail());
+        if (foundUser.isPresent())
+            throw new UserAlreadyExistsException();
         UserModel newUser = UserModel.builder()
                 .email(userInfo.getEmail())
                 .name(userInfo.getEmail().split("@")[0])
                 .password(hashPassword)
                 .build();
         userRepo.save(newUser);
-        System.out.println();
-        System.out.println("newUser" + newUser);
-        System.out.println();
         return newUser;
+    }
+
+    private UserModel getUserByEmail(String email) {
+        Optional<UserModel> foundUser = userRepo.findByEmail(email);
+        if (foundUser.isEmpty())
+            throw new UserNotFoundException();
+        return foundUser.get();
     }
 
     @Override
     public String signIn(SignInUserDto userInfo) throws Exception {
         Authentication authentication = UsernamePasswordAuthenticationToken.unauthenticated(userInfo.getEmail(), userInfo.getPassword());
         authenticationManager.authenticate(authentication);
-
-        Optional<UserModel> foundUser = userRepo.findByEmail(userInfo.getEmail());
-        if (foundUser.isEmpty())
-            throw new UsernameNotFoundException("Not found user");
+        UserModel foundUser = getUserByEmail(userInfo.getEmail());
         //TODO: erros in below code
-        String token = jwtUtil.generateToken(foundUser.get());
+        String token = jwtUtil.generateToken(foundUser);
         return token;
     }
 

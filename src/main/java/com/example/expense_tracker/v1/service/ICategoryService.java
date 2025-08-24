@@ -10,9 +10,11 @@ import java.util.Optional;
 public interface ICategoryService {
     CategoryModel create(CreateCategoryDto categoryInput);
 
-    CategoryModel getInfoById(long categoryId) throws Exception;
+    CategoryModel getInfoById(long categoryId);
 
     List<CategoryModel> getAll(long userId);
 
     boolean update(UpdateCategoryDto categoryUpdateDto, long categoryId);
+
+    boolean delete(long categoryId);
 }
