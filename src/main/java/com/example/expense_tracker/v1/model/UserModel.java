@@ -23,6 +23,7 @@ public class UserModel extends BaseModel implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private long id;
 
     @Column(nullable = false, unique = true)

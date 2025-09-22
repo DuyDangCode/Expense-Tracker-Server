@@ -4,6 +4,7 @@ import com.example.expense_tracker.v1.core.CategoryNotFoundException;
 import com.example.expense_tracker.v1.dto.CreateCategoryDto;
 import com.example.expense_tracker.v1.dto.UpdateCategoryDto;
 import com.example.expense_tracker.v1.model.CategoryModel;
+import com.example.expense_tracker.v1.model.UserModel;
 import com.example.expense_tracker.v1.repo.CategoryRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,8 @@ public class CategoryService implements ICategoryService {
 
     private final CategoryRepo categoryRepo;
 
-    public CategoryModel create(CreateCategoryDto categoryInput) {
-        CategoryModel newCategory = categoryRepo.save(new CategoryModel(categoryInput));
+    public CategoryModel create(CreateCategoryDto categoryInput, UserModel user) {
+        CategoryModel newCategory = categoryRepo.save(new CategoryModel(categoryInput, user));
         return newCategory;
     }
 

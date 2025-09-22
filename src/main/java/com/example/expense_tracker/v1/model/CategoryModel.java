@@ -8,19 +8,20 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Categories")
 public class CategoryModel extends BaseModel {
-    @Column(name = "UserId", nullable = false)
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserModel user;
 
     @Column(name = "Name")
     private String name;
 
-    public CategoryModel(CreateCategoryDto categoryCreateDto) {
-        this.userId = categoryCreateDto.getUserId();
-        this.name = categoryCreateDto.getName();
+    public CategoryModel(CreateCategoryDto categoryCreateDto, UserModel user) {
+        this.user = user;
+        this.name = categoryCreateDto.name();
     }
 
     public CategoryModel updateName(UpdateCategoryDto newCategory) {
-        this.name = newCategory.getName();
+        this.name = newCategory.name();
         return this;
     }
 }

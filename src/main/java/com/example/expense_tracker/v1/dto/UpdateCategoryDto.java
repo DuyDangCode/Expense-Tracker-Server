@@ -5,9 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-public class UpdateCategoryDto {
-    @NotNull
-    private String name;
+public record UpdateCategoryDto(
+        @NotNull
+        String name
+) {
 }

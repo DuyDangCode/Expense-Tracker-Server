@@ -3,10 +3,12 @@ package com.example.expense_tracker.v1.controller;
 import com.example.expense_tracker.v1.dto.CreateCategoryDto;
 import com.example.expense_tracker.v1.core.ResponseSuccess;
 import com.example.expense_tracker.v1.dto.UpdateCategoryDto;
+import com.example.expense_tracker.v1.model.UserModel;
 import com.example.expense_tracker.v1.service.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,11 +18,11 @@ public class CategoryController {
     private final ICategoryService categoryService;
 
     @PostMapping()
-    public ResponseSuccess create(@RequestBody CreateCategoryDto createCategoryDto) {
+    public ResponseSuccess create(@RequestBody CreateCategoryDto createCategoryDto, @AuthenticationPrincipal UserModel user) {
         return new ResponseSuccess(HttpStatus.OK, ResponseSuccess.Payload.builder()
                 .message("Create category successful")
                 .status(2001)
-                .body(categoryService.create(createCategoryDto))
+                .body(categoryService.create(createCategoryDto, user))
                 .build());
     }
 

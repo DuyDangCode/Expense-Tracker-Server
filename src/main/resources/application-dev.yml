@@ -2,9 +2,13 @@ spring:
   config:
     activate:
       on-profile: dev
+  output:
+    ansi:
+      enabled: always
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/expense_tracker_dev
@@ -23,4 +27,11 @@ jwt:
   secret: expense-tracker-server-api-secret-key
   expiration-amount-time: 25832000 #30 days
   expiration-refresh-token: 5184000 #60 days
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: DEBUG
+
+
 

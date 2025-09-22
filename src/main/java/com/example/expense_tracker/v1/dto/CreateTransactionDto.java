@@ -8,18 +8,21 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Getter
-@Setter
-public class CreateTransactionDto {
-    @NotNull
-    private Long categoryId;
-    @NotNull
-    private TransctionType type;
-    @PositiveOrZero
-    private long amount;
-
-    private Date date = new Date();
-    private String note = "";
-    @Null
-    private Long userId;
+public record CreateTransactionDto(
+        @NotNull
+        Long categoryId,
+        @NotNull
+        TransctionType type,
+        @PositiveOrZero
+        long amount,
+        Date date,
+        String note,
+        @Null
+        Long userId
+) {
+    public CreateTransactionDto {
+        if (date == null) {
+            date = new Date();
+        }
+    }
 }

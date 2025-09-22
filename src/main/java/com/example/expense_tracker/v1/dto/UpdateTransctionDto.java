@@ -6,18 +6,22 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Getter
-@Setter
-public class UpdateTransctionDto {
+public record UpdateTransctionDto(
 
-    @PositiveOrZero(message = "amount cant be nagitive")
-    private Long amount;
+        @PositiveOrZero(message = "amount cant be nagitive")
+        Long amount,
 
-    private TransctionType type;
+        TransctionType type,
 
-    private Date date;
+        Date date,
 
-    private Long categoryId;
+        Long categoryId,
 
-    private String note;
+        String note
+) {
+    public UpdateTransctionDto {
+        if (date == null) {
+            date = new Date();
+        }
+    }
 }

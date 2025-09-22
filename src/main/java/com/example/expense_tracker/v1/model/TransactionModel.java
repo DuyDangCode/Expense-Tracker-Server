@@ -3,6 +3,7 @@ package com.example.expense_tracker.v1.model;
 import com.example.expense_tracker.v1.dto.CreateTransactionDto;
 import com.example.expense_tracker.v1.dto.TransctionType;
 import com.example.expense_tracker.v1.dto.UpdateTransctionDto;
+import com.example.expense_tracker.v1.repo.UserRepo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Date;
 public class TransactionModel extends BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "transaction_id")
     private long id;
 
     @Column(nullable = false)
@@ -30,36 +32,37 @@ public class TransactionModel extends BaseModel {
     @Column(nullable = false)
     private long categoryId;
 
-    @Column(nullable = false)
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserModel user;
 
     @Column(nullable = false)
     private String note;
 
-    public TransactionModel(CreateTransactionDto newTransactionInfo) {
-        this.amount = newTransactionInfo.getAmount();
-        this.type = newTransactionInfo.getType();
-        this.categoryId = newTransactionInfo.getCategoryId();
-        this.note = newTransactionInfo.getNote();
-        this.date = newTransactionInfo.getDate();
-        this.userId = newTransactionInfo.getUserId();
+    public TransactionModel(CreateTransactionDto newTransactionInfo, UserModel user) {
+        this.amount = newTransactionInfo.amount();
+        this.type = newTransactionInfo.type();
+        this.categoryId = newTransactionInfo.categoryId();
+        this.note = newTransactionInfo.note();
+        this.date = newTransactionInfo.date();
+        this.user = user;
     }
 
     public void update(UpdateTransctionDto newTransctionInfo) {
-        if (newTransctionInfo.getAmount() != null) {
-            this.amount = newTransctionInfo.getAmount();
+        if (newTransctionInfo.amount() != null) {
+            this.amount = newTransctionInfo.amount();
         }
-        if (newTransctionInfo.getType() != null) {
-            this.type = newTransctionInfo.getType();
+        if (newTransctionInfo.type() != null) {
+            this.type = newTransctionInfo.type();
         }
-        if (newTransctionInfo.getCategoryId() != null) {
-            this.categoryId = newTransctionInfo.getCategoryId();
+        if (newTransctionInfo.categoryId() != null) {
+            this.categoryId = newTransctionInfo.categoryId();
         }
-        if (newTransctionInfo.getNote() != null) {
-            this.note = newTransctionInfo.getNote();
+        if (newTransctionInfo.note() != null) {
+            this.note = newTransctionInfo.note();
         }
-        if (newTransctionInfo.getDate() != null) {
-            this.date = newTransctionInfo.getDate();
+        if (newTransctionInfo.date() != null) {
+            this.date = newTransctionInfo.date();
         }
     }
 }

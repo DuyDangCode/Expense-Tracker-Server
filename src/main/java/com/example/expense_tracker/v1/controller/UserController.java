@@ -43,10 +43,10 @@ public class UserController {
 
     }
 
-    @PostMapping("/refresh-token")
-    public ResponseSuccess refreshToken(String token) {
+    @PostMapping("/refresh-token/{token}")
+    public ResponseSuccess refreshToken(@PathVariable String token) {
         return new ResponseSuccess(HttpStatus.OK,
-                ResponseSuccess.Payload.builder().build()
+                ResponseSuccess.Payload.builder().status(HttpStatus.OK.value()).message("Refresh token").body(userService.refreshToken(token)).build()
         );
     }
 

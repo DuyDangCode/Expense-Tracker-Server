@@ -1,9 +1,11 @@
 package com.example.expense_tracker.v1.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
-@Getter
-public class CreateCategoryDto {
-    private String name;
-    private long userId;
-}
+public record CreateCategoryDto (
+        @NotBlank(message = "Category name is required")
+     String name,
+     long userId
+){}
+

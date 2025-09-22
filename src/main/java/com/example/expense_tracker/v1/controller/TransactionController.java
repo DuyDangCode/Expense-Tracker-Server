@@ -19,11 +19,10 @@ public class TransactionController {
 
     @PostMapping
     public ResponseSuccess create(@RequestBody CreateTransactionDto newTransaction, @AuthenticationPrincipal UserModel userModel) {
-        newTransaction.setUserId(userModel.getId());
         return new ResponseSuccess(HttpStatus.OK, ResponseSuccess.Payload.builder()
                 .status(2001)
                 .message("Create transaction successful")
-                .body(transactionService.create(newTransaction))
+                .body(transactionService.create(newTransaction, userModel))
                 .build());
     }
 

@@ -10,6 +10,7 @@ import java.util.Date;
 @Entity
 public class ReportModel extends BaseModel {
     @Id
+    @Column(name = "report_id")
     private long id;
     private long amount;
 

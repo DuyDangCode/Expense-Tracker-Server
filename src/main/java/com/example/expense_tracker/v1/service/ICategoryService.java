@@ -3,12 +3,13 @@ package com.example.expense_tracker.v1.service;
 import com.example.expense_tracker.v1.dto.CreateCategoryDto;
 import com.example.expense_tracker.v1.dto.UpdateCategoryDto;
 import com.example.expense_tracker.v1.model.CategoryModel;
+import com.example.expense_tracker.v1.model.UserModel;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ICategoryService {
-    CategoryModel create(CreateCategoryDto categoryInput);
+    CategoryModel create(CreateCategoryDto categoryInput, UserModel userModel);
 
     CategoryModel getInfoById(long categoryId);
 

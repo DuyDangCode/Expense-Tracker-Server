@@ -25,18 +25,28 @@ public class JwtUtil {
     @Value("${jwt.secret}")
     private String secretKey;
     @Value("${jwt.expiration-amount-time}")
-    private int amountTime;
+    private int accessTokenExpiration;
 
-    public String generateToken(UserModel user) {
-        System.out.println(user);
+    @Value("${jwt.expiration-refresh-token}")
+    private int refreshTokenExpiration;
+
+    private String generateToken(UserModel user, int expiration) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", user.getEmail());
         return Jwts.builder()
                 .subject(user.getEmail())
                 .claims(claims)
                 .signWith(getKey())
-                .expiration(new Date(System.currentTimeMillis() + amountTime * 1000L))
+                .expiration(new Date(System.currentTimeMillis() + expiration * 1000L))
                 .compact();
+    }
+
+    public String generateAccessToken(UserModel user) {
+        return generateToken(user, accessTokenExpiration);
+    }
+
+    public String generateRefreskToken(UserModel user) {
+        return generateToken(user, refreshTokenExpiration);
     }
 
     public SecretKey getKey() {

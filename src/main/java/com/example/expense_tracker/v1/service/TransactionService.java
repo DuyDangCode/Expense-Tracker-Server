@@ -5,6 +5,7 @@ import com.example.expense_tracker.v1.core.TransactionNotFoundException;
 import com.example.expense_tracker.v1.dto.CreateTransactionDto;
 import com.example.expense_tracker.v1.model.TransactionModel;
 import com.example.expense_tracker.v1.dto.UpdateTransctionDto;
+import com.example.expense_tracker.v1.model.UserModel;
 import com.example.expense_tracker.v1.repo.TransactionRepo;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
@@ -19,8 +20,8 @@ public class TransactionService implements ITransactionService {
     private final TransactionRepo transactionRepo;
 
     @Override
-    public TransactionModel create(CreateTransactionDto newTransactionInfo) {
-        TransactionModel newTransaction = new TransactionModel(newTransactionInfo);
+    public TransactionModel create(CreateTransactionDto newTransactionInfo, UserModel user) {
+        TransactionModel newTransaction = new TransactionModel(newTransactionInfo, user);
         transactionRepo.save(newTransaction);
         return newTransaction;
     }
@@ -54,7 +55,7 @@ public class TransactionService implements ITransactionService {
         if (foundTransaction.isEmpty())
             throw new TransactionNotFoundException();
         TransactionModel transaction = foundTransaction.get();
-        if (transaction.getUserId() != userId) throw new ForbiddenError();
+        if (transaction.getUser().getId() != userId) throw new ForbiddenError();
         return transaction;
     }
 }

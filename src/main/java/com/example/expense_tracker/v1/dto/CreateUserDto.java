@@ -5,9 +5,8 @@ import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-public class CreateUserDto {
-    private String email;
-    private String password;
+public record CreateUserDto(
+        String email,
+        String password
+) {
 }

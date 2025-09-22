@@ -4,9 +4,8 @@ package com.example.expense_tracker.v1.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-public class SignInUserDto {
-    private String email;
-    private String password;
+public record SignInUserDto(
+        String email,
+        String password
+) {
 }
