@@ -54,8 +54,11 @@ public class JwtUtil {
     }
 
     private Claims getAllClaims(String token) {
-        return Jwts.parser().verifyWith(getKey()).build().parseEncryptedClaims(token).getPayload();
-
+        return Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> func) {
