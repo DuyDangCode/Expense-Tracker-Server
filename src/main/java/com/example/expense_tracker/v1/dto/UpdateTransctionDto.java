@@ -1,5 +1,6 @@
 package com.example.expense_tracker.v1.dto;
 
+import com.example.expense_tracker.v1.model.CategoryModel;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public record UpdateTransctionDto(
 
         Date date,
 
-        Long categoryId,
+        CategoryModel category,
 
         String note
 ) {

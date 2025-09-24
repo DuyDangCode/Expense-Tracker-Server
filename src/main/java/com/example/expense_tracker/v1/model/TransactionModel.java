@@ -29,20 +29,22 @@ public class TransactionModel extends BaseModel {
     @Column(nullable = false)
     private Date date;
 
-    @Column(nullable = false)
-    private long categoryId;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
+    private CategoryModel category;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private UserModel user;
 
     @Column(nullable = false)
+    @Lob
     private String note;
 
     public TransactionModel(CreateTransactionDto newTransactionInfo, UserModel user) {
         this.amount = newTransactionInfo.amount();
         this.type = newTransactionInfo.type();
-        this.categoryId = newTransactionInfo.categoryId();
+        this.category = newTransactionInfo.category();
         this.note = newTransactionInfo.note();
         this.date = newTransactionInfo.date();
         this.user = user;
@@ -55,8 +57,8 @@ public class TransactionModel extends BaseModel {
         if (newTransctionInfo.type() != null) {
             this.type = newTransctionInfo.type();
         }
-        if (newTransctionInfo.categoryId() != null) {
-            this.categoryId = newTransctionInfo.categoryId();
+        if (newTransctionInfo.category() != null) {
+            this.category = newTransctionInfo.category();
         }
         if (newTransctionInfo.note() != null) {
             this.note = newTransctionInfo.note();

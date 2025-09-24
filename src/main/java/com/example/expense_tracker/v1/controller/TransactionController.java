@@ -28,6 +28,7 @@ public class TransactionController {
 
     @GetMapping
     public ResponseSuccess getAll(@AuthenticationPrincipal UserModel userDetail) {
+
         return new ResponseSuccess(HttpStatus.OK, ResponseSuccess.Payload.builder()
                 .status(2001)
                 .message("Get all transactions successful")
