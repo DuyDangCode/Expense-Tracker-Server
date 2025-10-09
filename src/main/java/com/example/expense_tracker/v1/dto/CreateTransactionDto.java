@@ -1,6 +1,7 @@
 package com.example.expense_tracker.v1.dto;
 
 import com.example.expense_tracker.v1.model.CategoryModel;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -10,16 +11,14 @@ import lombok.Setter;
 import java.util.Date;
 
 public record CreateTransactionDto(
-        @NotNull
-        CategoryModel category,
+
+        String categoryId,
         @NotNull
         TransctionType type,
         @PositiveOrZero
         long amount,
         Date date,
-        String note,
-        @Null
-        Long userId
+        String note
 ) {
     public CreateTransactionDto {
         if (date == null) {

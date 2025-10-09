@@ -1,5 +1,6 @@
 package com.example.expense_tracker.v1.service;
 
+import com.example.expense_tracker.v1.core.CategoryFoundException;
 import com.example.expense_tracker.v1.core.CategoryNotFoundException;
 import com.example.expense_tracker.v1.dto.CreateCategoryDto;
 import com.example.expense_tracker.v1.dto.UpdateCategoryDto;
@@ -20,6 +21,8 @@ public class CategoryService implements ICategoryService {
     private final CategoryRepo categoryRepo;
 
     public CategoryModel create(CreateCategoryDto categoryInput, UserModel user) {
+        if (categoryRepo.findByName(categoryInput.name()).isPresent())
+            throw new CategoryFoundException();
         CategoryModel newCategory = categoryRepo.save(new CategoryModel(categoryInput, user));
         return newCategory;
     }

@@ -5,6 +5,8 @@ import com.example.expense_tracker.v1.core.ErrorResponse;
 import com.example.expense_tracker.v1.core.ResourceNotFoundException;
 import com.example.expense_tracker.v1.core.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Hidden;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,7 +17,10 @@ import java.util.Date;
 
 @RestControllerAdvice
 @Hidden
+
 public class GlobalExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler({UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundResource(Exception e, WebRequest request) {
@@ -26,6 +31,7 @@ public class GlobalExceptionHandler {
                 .path(request.getDescription(false).replace("uri=", ""))
                 .message(e.getMessage())
                 .build();
+        logger.error("Invalid occurred: {}, Request Details: {}", e.getMessage(), request.getDescription(false), e);
         return newErrorResponse;
     }
 
@@ -40,6 +46,8 @@ public class GlobalExceptionHandler {
                 .path(request.getDescription(false).replace("uri=", ""))
                 .message(e.getMessage())
                 .build();
+
+        logger.error("Exception occurred: {}, Request Details: {}", e.getMessage(), request.getDescription(false), e);
         return newErrorResponse;
     }
 
