@@ -1,8 +1,6 @@
 package com.example.expense_tracker.v1.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -11,6 +9,7 @@ import java.util.Date;
 public class ReportModel extends BaseModel {
     @Id
     @Column(name = "report_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long amount;
 

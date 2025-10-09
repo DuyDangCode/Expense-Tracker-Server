@@ -7,9 +7,6 @@ import java.util.Date;
 
 @MappedSuperclass
 public abstract class BaseModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
     @Column(name = "is_delete")
     //0 is false, 1 is true
     protected int isDelete = 0;

@@ -4,6 +4,8 @@ import com.example.expense_tracker.v1.dto.CreateTransactionDto;
 import com.example.expense_tracker.v1.dto.TransctionType;
 import com.example.expense_tracker.v1.dto.UpdateTransctionDto;
 import com.example.expense_tracker.v1.repo.UserRepo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.Date;
 @Getter
 public class TransactionModel extends BaseModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
     private long id;
 
@@ -29,22 +31,23 @@ public class TransactionModel extends BaseModel {
     @Column(nullable = false)
     private Date date;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private CategoryModel category;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private UserModel user;
 
     @Column(nullable = false)
     @Lob
     private String note;
 
-    public TransactionModel(CreateTransactionDto newTransactionInfo, UserModel user) {
+    public TransactionModel(CreateTransactionDto newTransactionInfo, UserModel user, CategoryModel category) {
         this.amount = newTransactionInfo.amount();
         this.type = newTransactionInfo.type();
-        this.category = newTransactionInfo.category();
+        this.category = category;
         this.note = newTransactionInfo.note();
         this.date = newTransactionInfo.date();
         this.user = user;
